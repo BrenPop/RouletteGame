@@ -1,0 +1,6 @@
+@DerivcoAssessment_HostAddress = http://localhost:5154
+
+GET {{DerivcoAssessment_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
