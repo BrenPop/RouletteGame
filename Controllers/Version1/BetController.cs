@@ -31,7 +31,7 @@ namespace DerivcoAssessment.Controllers.Version1
         [HttpPost]
         public async Task<ActionResult<Bet>> PlaceBet([FromBody] BetDto betDto)
         {
-            if (betDto == null)
+            if (betDto == null || betDto == new BetDto())
             {
                 return BadRequest("Invalid bet data");
             }

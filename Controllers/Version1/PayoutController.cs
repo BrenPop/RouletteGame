@@ -45,7 +45,7 @@ namespace DerivcoAssessment.Controllers.Version1
 
                 List<Bet> placedBets = await _betService.GetPlacedBets();
 
-                if (placedBets == null || placedBets.Equals(new List<Bet>()))
+                if (placedBets == null || placedBets.Count <= 0)
                 {
                     return BadRequest("Invalid bet list data");
                 }

@@ -26,6 +26,8 @@ namespace DerivcoAssessment.Services
                     BetResult = BetResult.Pending
                 };
 
+                var test = await AddAsync(bet);
+
                 return await AddAsync(bet);
             }
             catch (Exception ex)
