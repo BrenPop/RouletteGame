@@ -15,6 +15,23 @@ namespace DerivcoAssessment.Controllers.Version1
         private readonly IBetService _betService = betService;
 
         [HttpGet]
+        public async Task<ActionResult<IEnumerable<Payout>>> GetPayoutsHistory()
+        {
+            try
+            {
+                var payouts = await _payoutService.GetAllAsync();
+
+                return Ok(payouts);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving the Payouts history");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An unexpected error occurred while processing the request: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
         public async Task<ActionResult<IEnumerable<Payout>>> Payout()
         {
             try

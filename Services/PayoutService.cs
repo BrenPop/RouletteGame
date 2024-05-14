@@ -2,7 +2,6 @@
 using DerivcoAssessment.Models;
 using DerivcoAssessment.Repositories.Interfaces;
 using DerivcoAssessment.Services.Interfaces;
-using System.Drawing;
 
 namespace DerivcoAssessment.Services
 {

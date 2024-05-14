@@ -12,7 +12,7 @@ namespace DerivcoAssessment.Controllers.Version1
         private readonly ISpinService _spinService = spinService;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bet>>> GetSpinsHistory()
+        public async Task<ActionResult<IEnumerable<Spin>>> GetSpinsHistory()
         {
             try
             {
@@ -35,7 +35,7 @@ namespace DerivcoAssessment.Controllers.Version1
             {
                 Spin spinResult = await _spinService.SpinRouletteWheel();
 
-                return CreatedAtAction(nameof(Spin), new { id = spinResult.Id }, spinResult);
+                return CreatedAtAction(nameof(SpinRouletteWheel), new { id = spinResult.Id }, spinResult);
             }
             catch (Exception ex)
             {
