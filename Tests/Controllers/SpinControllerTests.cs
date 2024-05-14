@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
-namespace DerivcoAssessment.Tests.Integration
+namespace DerivcoAssessment.Tests.Controllers
 {
     public class SpinControllerTests
     {

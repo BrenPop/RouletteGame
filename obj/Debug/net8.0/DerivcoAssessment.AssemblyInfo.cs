@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DerivcoAssessment")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6a0634123c7074118f141a0e119fe1e18818ff73")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8b5951e8a2553fc5786e30af10c2989974d1ca6")]
 [assembly: System.Reflection.AssemblyProductAttribute("DerivcoAssessment")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DerivcoAssessment")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
