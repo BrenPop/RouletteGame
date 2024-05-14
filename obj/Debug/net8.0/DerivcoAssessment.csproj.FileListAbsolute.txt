@@ -206,9 +206,9 @@ C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Deb
 C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.DerivcoAssessment.props
 C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\scopedcss\bundle\DerivcoAssessment.styles.css
-C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\DerivcoAssessment.csproj.CopyComplete
 C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\DerivcoAssessment.dll
 C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\refint\DerivcoAssessment.dll
 C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\DerivcoAssessment.pdb
 C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\DerivcoAssessment.genruntimeconfig.cache
 C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\ref\DerivcoAssessment.dll
+C:\Users\brend\Projects\Personal\Job Application Tasks\DerivcoAssessment\obj\Debug\net8.0\DerivcoAssessment.csproj.CopyComplete

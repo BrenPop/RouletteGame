@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DerivcoAssessment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240513135948_Initial")]
+    [Migration("20240514165508_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

@@ -23,22 +23,25 @@ namespace DerivcoAssessment.Services
 
             foreach (var bet in placedBets)
             {
+                bet.SpinId = spin.Id;
                 bet.Spin = spin;
                 bet.BetStatus = BetStatus.Active;
                 await _betService.UpdateAsync(bet);
 
-                var betResult = CalculateBetResult(spin.Colour, bet.Colour, bet.Amount);
+                var betPayoutAmount = CalculateBetResult(spin.Colour, bet.Colour, bet.Amount);
                 var payout = new Payout
                 {
-                    Amount = betResult,
+                    Amount = betPayoutAmount,
+                    SpinId = spin.Id,
                     Spin = spin,
-                    BetResult = betResult >= 0 ? BetResult.Win : BetResult.Loss
+                    BetResult = betPayoutAmount >= 0 ? BetResult.Win : BetResult.Loss
                 };
 
                 Payout savedPayout = await AddAsync(payout);
 
                 payouts.Add(savedPayout);
 
+                bet.PayoutId = savedPayout.Id;
                 bet.Payout = savedPayout;
                 bet.BetStatus = BetStatus.Completed;
                 await _betService.UpdateAsync(bet);
