@@ -23,7 +23,6 @@ namespace DerivcoAssessment.Services
 
             foreach (var bet in placedBets)
             {
-                bet.SpinId = spin.Id;
                 bet.Spin = spin;
                 bet.BetStatus = BetStatus.Active;
                 await _betService.UpdateAsync(bet);
@@ -32,7 +31,6 @@ namespace DerivcoAssessment.Services
                 var payout = new Payout
                 {
                     Amount = betPayoutAmount,
-                    SpinId = spin.Id,
                     Spin = spin,
                     BetResult = betPayoutAmount >= 0 ? BetResult.Win : BetResult.Loss
                 };
@@ -41,7 +39,6 @@ namespace DerivcoAssessment.Services
 
                 payouts.Add(savedPayout);
 
-                bet.PayoutId = savedPayout.Id;
                 bet.Payout = savedPayout;
                 bet.BetStatus = BetStatus.Completed;
                 await _betService.UpdateAsync(bet);
