@@ -1,9 +1,11 @@
 Steps to setup this project
 
 1. Clone the repo locally
-2. Clean and build the project
-3. Run the project
-4. To test the project you can use the swagger page, or Postman
+2. cd into the RouletteGame directory
+3. Open the solution in Visual Studio
+4. Clean and build the project
+5. Run the project
+6. To test the project you can use the swagger page, or Postman
 
 API Endpoints:
 
