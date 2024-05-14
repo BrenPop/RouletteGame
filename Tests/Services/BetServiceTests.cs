@@ -24,7 +24,7 @@ namespace DerivcoAssessment.Tests.Services
         }
 
         [Test]
-        public async Task PlaceBet_ReturnsBet_WhenValidBetDtoIsProvided()
+        public async Task PlaceBetAsync_ReturnsBet_WhenValidBetDtoIsProvided()
         {
             // Arrange
             Guid Id = Guid.NewGuid();
@@ -52,7 +52,7 @@ namespace DerivcoAssessment.Tests.Services
             _betRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Bet>())).ReturnsAsync(responseBet);
 
             // Act
-            var result = await _betService.PlaceBet(betDto);
+            var result = await _betService.PlaceBetAsync(betDto);
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -64,19 +64,19 @@ namespace DerivcoAssessment.Tests.Services
         }
 
         [Test]
-        public void PlaceBet_ThrowsException_WhenInvalidColourIsProvided()
+        public void PlaceBetAsync_ThrowsException_WhenInvalidColourIsProvided()
         {
             // Arrange
             var invalidBetDto = new BetDto { Amount = 10.0, Colour = "InvalidColour" };
 
             // Act & Assert
-            var exception = Assert.ThrowsAsync<Exception>(async () => await _betService.PlaceBet(invalidBetDto));
-            Assert.That(exception.Message, Is.EqualTo("Requested value 'InvalidColour' was not found."));
+            var exception = Assert.ThrowsAsync<ArgumentException>(async () => await _betService.PlaceBetAsync(invalidBetDto));
+            Assert.That(exception.Message, Is.EqualTo("Invalid bet color specified."));
             _betRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Bet>()), Times.Never);
         }
 
         [Test]
-        public async Task GetPlacedBets_ReturnsListOfBets()
+        public async Task GetPlacedBetsAsync_ReturnsListOfBets()
         {
             // Arrange
             var expectedBets = new List<Bet> {
@@ -87,7 +87,7 @@ namespace DerivcoAssessment.Tests.Services
             _betRepositoryMock.Setup(x => x.GetPlacedBets()).ReturnsAsync(expectedBets);
 
             // Act
-            var result = await _betService.GetPlacedBets();
+            var result = await _betService.GetPlacedBetsAsync();
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -95,13 +95,13 @@ namespace DerivcoAssessment.Tests.Services
         }
 
         [Test]
-        public async Task GetPlacedBets_ReturnsEmptyList_WhenNoBetsArePlaced()
+        public async Task GetPlacedBetsAsync_ReturnsEmptyList_WhenNoBetsArePlaced()
         {
             // Arrange
             _betRepositoryMock.Setup(x => x.GetPlacedBets()).ReturnsAsync(new List<Bet>());
 
             // Act
-            var result = await _betService.GetPlacedBets();
+            var result = await _betService.GetPlacedBetsAsync();
 
             // Assert
             Assert.That(result, Is.Not.Null);

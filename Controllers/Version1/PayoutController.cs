@@ -1,5 +1,4 @@
 ﻿using DerivcoAssessment.Models;
-using DerivcoAssessment.Services;
 using DerivcoAssessment.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,12 +6,20 @@ namespace DerivcoAssessment.Controllers.Version1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class PayoutController(ILogger<PayoutController> logger, IPayoutService payoutService, ISpinService spinService, IBetService betService) : Controller
+    public class PayoutController : ControllerBase
     {
-        private readonly ILogger<PayoutController> _logger = logger;
-        private readonly IPayoutService _payoutService = payoutService;
-        private readonly ISpinService _spinService = spinService;
-        private readonly IBetService _betService = betService;
+        private readonly ILogger<PayoutController> _logger;
+        private readonly IPayoutService _payoutService;
+        private readonly ISpinService _spinService;
+        private readonly IBetService _betService;
+
+        public PayoutController(ILogger<PayoutController> logger, IPayoutService payoutService, ISpinService spinService, IBetService betService)
+        {
+            _logger = logger;
+            _payoutService = payoutService;
+            _spinService = spinService;
+            _betService = betService;
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Payout>>> GetPayoutsHistory()
@@ -20,14 +27,12 @@ namespace DerivcoAssessment.Controllers.Version1
             try
             {
                 var payouts = await _payoutService.GetAllAsync();
-
                 return Ok(payouts);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while retrieving the Payouts history");
-
-                return StatusCode(StatusCodes.Status500InternalServerError, $"An unexpected error occurred while processing the request: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while processing the request.");
             }
         }
 
@@ -36,29 +41,27 @@ namespace DerivcoAssessment.Controllers.Version1
         {
             try
             {
-                Spin? latestSpin = await _spinService.GetLatestSpinResult();
+                var latestSpin = await _spinService.GetLatestSpinResultAsync();
 
                 if (latestSpin == null)
                 {
                     return BadRequest("Invalid spin data");
                 }
 
-                List<Bet> placedBets = await _betService.GetPlacedBets();
+                var placedBets = await _betService.GetPlacedBetsAsync();
 
-                if (placedBets == null || placedBets.Count <= 0)
+                if (placedBets == null || placedBets.Count == 0)
                 {
                     return BadRequest("Invalid bet list data");
                 }
 
-                List<Payout> payoutsResult = await _payoutService.CalculateBetPayouts(latestSpin, placedBets);
-
+                var payoutsResult = await _payoutService.CalculateBetPayoutsAsync(latestSpin, placedBets);
                 return CreatedAtAction(nameof(Payout), payoutsResult);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while calculating the payouts");
-
-                return StatusCode(StatusCodes.Status500InternalServerError, $"An unexpected error occurred while processing the request: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while processing the request.");
             }
         }
     }

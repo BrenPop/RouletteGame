@@ -1,10 +1,7 @@
 ﻿using DerivcoAssessment.Controllers.Version1;
 using DerivcoAssessment.Models;
-using DerivcoAssessment.Repositories;
 using DerivcoAssessment.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -32,13 +29,14 @@ namespace DerivcoAssessment.Tests.Controllers
             BetDto newBetDto = new BetDto { Amount = 50000, Colour = "Black" };
             Bet responseBet = new Bet { Id = Guid.NewGuid(), Amount = 5000, Colour = Enums.BetColour.Black, BetStatus = Enums.BetStatus.Placed };
 
-            _mockBetService.Setup(service => service.PlaceBet(newBetDto)).ReturnsAsync(responseBet);
+            _mockBetService.Setup(service => service.PlaceBetAsync(newBetDto)).ReturnsAsync(responseBet);
 
             // Act
             var result = await _betController.PlaceBet(newBetDto);
 
             // Assert
             var createdAtActionResult = result.Result as CreatedAtActionResult;
+
             Assert.That(createdAtActionResult, Is.Not.Null);
             Assert.That(createdAtActionResult?.ActionName, Is.EqualTo(nameof(BetController.PlaceBet)));
             Assert.That(createdAtActionResult?.Value, Is.EqualTo(responseBet));
@@ -62,6 +60,7 @@ namespace DerivcoAssessment.Tests.Controllers
 
             // Assert
             var okResult = result.Result as OkObjectResult;
+
             Assert.That(okResult, Is.Not.Null);
             Assert.That(okResult?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
             Assert.That(bets, Is.EqualTo(okResult?.Value));
@@ -78,6 +77,7 @@ namespace DerivcoAssessment.Tests.Controllers
 
             // Assert
             var objectResult = result.Result as ObjectResult;
+
             Assert.That(objectResult, Is.Not.Null);
             Assert.That(objectResult?.StatusCode, Is.EqualTo(StatusCodes.Status500InternalServerError));
         }
@@ -88,13 +88,15 @@ namespace DerivcoAssessment.Tests.Controllers
             // Arrange
             var betDto = new BetDto { Amount = 50000, Colour = "Black" };
             var createdBet = new Bet { Id = Guid.NewGuid(), Amount = 5000, Colour = Enums.BetColour.Black, BetStatus = Enums.BetStatus.Placed };
-            _mockBetService.Setup(x => x.PlaceBet(betDto)).ReturnsAsync(createdBet);
+
+            _mockBetService.Setup(x => x.PlaceBetAsync(betDto)).ReturnsAsync(createdBet);
 
             // Act
             var result = await _betController.PlaceBet(betDto);
 
             // Assert
             var createdAtActionResult = result.Result as CreatedAtActionResult;
+
             Assert.That(createdAtActionResult, Is.Not.Null);
             Assert.That(createdAtActionResult?.ActionName, Is.EqualTo(nameof(BetController.PlaceBet)));
             Assert.That(createdAtActionResult?.Value, Is.EqualTo(createdBet));

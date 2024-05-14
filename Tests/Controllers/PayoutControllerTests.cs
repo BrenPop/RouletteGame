@@ -2,9 +2,7 @@
 using DerivcoAssessment.Enums;
 using DerivcoAssessment.Models;
 using DerivcoAssessment.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -13,7 +11,6 @@ namespace DerivcoAssessment.Tests.Controllers
     public class PayoutControllerTests
     {
         private Mock<ILogger<PayoutController>> _mockLogger;
-
         private PayoutController _payoutController;
         private Mock<IPayoutService> _mockPayoutService;
         private Mock<ISpinService> _mockSpinService;
@@ -77,9 +74,9 @@ namespace DerivcoAssessment.Tests.Controllers
                 new Payout { Id = Guid.NewGuid(), CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now, Amount = 100.0, Spin = new Spin { /* Add spin data */ }, BetResult = BetResult.Win },
                 new Payout { Id = Guid.NewGuid(), CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now, Amount = 50.0, Spin = new Spin { /* Add spin data */ }, BetResult = BetResult.Loss },
             };
-            _mockSpinService.Setup(x => x.GetLatestSpinResult()).ReturnsAsync(spinResult);
-            _mockBetService.Setup(x => x.GetPlacedBets()).ReturnsAsync(placedBets);
-            _mockPayoutService.Setup(x => x.CalculateBetPayouts(spinResult, placedBets)).ReturnsAsync(payoutsResult);
+            _mockSpinService.Setup(x => x.GetLatestSpinResultAsync()).ReturnsAsync(spinResult);
+            _mockBetService.Setup(x => x.GetPlacedBetsAsync()).ReturnsAsync(placedBets);
+            _mockPayoutService.Setup(x => x.CalculateBetPayoutsAsync(spinResult, placedBets)).ReturnsAsync(payoutsResult);
 
             // Act
             var result = await _payoutController.Payout();
@@ -95,7 +92,7 @@ namespace DerivcoAssessment.Tests.Controllers
         public async Task Payout_ReturnsBadRequest_WhenSpinResultIsNull()
         {
             // Arrange
-            _mockSpinService.Setup(x => x.GetLatestSpinResult()).ReturnsAsync((Spin)null);
+            _mockSpinService.Setup(x => x.GetLatestSpinResultAsync()).ReturnsAsync((Spin)null);
 
             // Act
             var result = await _payoutController.Payout();
@@ -110,8 +107,8 @@ namespace DerivcoAssessment.Tests.Controllers
         public async Task Payout_ReturnsBadRequest_WhenPlacedBetsAreNullOrEmpty()
         {
             // Arrange
-            _mockSpinService.Setup(x => x.GetLatestSpinResult()).ReturnsAsync(new Spin());
-            _mockBetService.Setup(x => x.GetPlacedBets()).ReturnsAsync(new List<Bet>());
+            _mockSpinService.Setup(x => x.GetLatestSpinResultAsync()).ReturnsAsync(new Spin());
+            _mockBetService.Setup(x => x.GetPlacedBetsAsync()).ReturnsAsync(new List<Bet>());
 
             // Act
             var result = await _payoutController.Payout();
@@ -126,7 +123,7 @@ namespace DerivcoAssessment.Tests.Controllers
         public async Task Payout_ReturnsInternalServerError_WhenServiceThrowsException()
         {
             // Arrange
-            _mockSpinService.Setup(x => x.GetLatestSpinResult()).ThrowsAsync(new Exception("Test exception"));
+            _mockSpinService.Setup(x => x.GetLatestSpinResultAsync()).ThrowsAsync(new Exception("Test exception"));
 
             // Act
             var result = await _payoutController.Payout();

@@ -17,7 +17,7 @@ namespace DerivcoAssessment.Services
             _betService = betService;
         }
 
-        public async Task<List<Payout>> CalculateBetPayouts(Spin spin, List<Bet> placedBets)
+        public async Task<List<Payout>> CalculateBetPayoutsAsync(Spin spin, List<Bet> placedBets)
         {
             var payouts = new List<Payout>();
 

@@ -4,8 +4,8 @@ namespace DerivcoAssessment.Services.Interfaces
 {
     public interface ISpinService : IBaseService<Spin>
     {
-        Task<Spin> SpinRouletteWheel();
+        Task<Spin> SpinRouletteWheelAsync();
 
-        Task<Spin?> GetLatestSpinResult();
+        Task<Spin?> GetLatestSpinResultAsync();
     }
 }

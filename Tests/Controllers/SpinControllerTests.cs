@@ -2,9 +2,7 @@
 using DerivcoAssessment.Enums;
 using DerivcoAssessment.Models;
 using DerivcoAssessment.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -13,7 +11,6 @@ namespace DerivcoAssessment.Tests.Controllers
     public class SpinControllerTests
     {
         private Mock<ILogger<SpinController>> _mockLogger;
-
         private SpinController _spinController;
         private Mock<ISpinService> _mockSpinService;
 
@@ -43,7 +40,7 @@ namespace DerivcoAssessment.Tests.Controllers
             // Assert
             var result = actionResult.Result as OkObjectResult;
             Assert.That(result, Is.Not.Null);
-            Assert.That(result?.StatusCode, Is.EqualTo(200));
+            Assert.That(result?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
             Assert.That(spins, Is.EqualTo(result?.Value));
         }
 
@@ -67,7 +64,7 @@ namespace DerivcoAssessment.Tests.Controllers
         {
             // Arrange
             var spinResult = new Spin { Id = Guid.NewGuid(), CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now, Number = 12, Colour = BetColour.Red };
-            _mockSpinService.Setup(x => x.SpinRouletteWheel()).ReturnsAsync(spinResult);
+            _mockSpinService.Setup(x => x.SpinRouletteWheelAsync()).ReturnsAsync(spinResult);
 
             // Act
             var result = await _spinController.SpinRouletteWheel();
@@ -83,7 +80,7 @@ namespace DerivcoAssessment.Tests.Controllers
         public async Task SpinRouletteWheel_ReturnsInternalServerError_WhenServiceThrowsException()
         {
             // Arrange
-            _mockSpinService.Setup(x => x.SpinRouletteWheel()).ThrowsAsync(new Exception("Test exception"));
+            _mockSpinService.Setup(x => x.SpinRouletteWheelAsync()).ThrowsAsync(new Exception("Test exception"));
 
             // Act
             var result = await _spinController.SpinRouletteWheel();

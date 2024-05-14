@@ -4,8 +4,8 @@ namespace DerivcoAssessment.Services.Interfaces
 {
     public interface IBetService : IBaseService<Bet>
     {
-        Task<Bet> PlaceBet(BetDto betDto);
+        Task<Bet> PlaceBetAsync(BetDto betDto);
 
-        Task<List<Bet>> GetPlacedBets();
+        Task<List<Bet>> GetPlacedBetsAsync();
     }
 }

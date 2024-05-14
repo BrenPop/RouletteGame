@@ -28,7 +28,7 @@ namespace DerivcoAssessment.Tests.Services
             _spinRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Spin>())).ReturnsAsync(expectedSpin);
 
             // Act
-            var result = await _spinService.SpinRouletteWheel();
+            var result = await _spinService.SpinRouletteWheelAsync();
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -43,7 +43,7 @@ namespace DerivcoAssessment.Tests.Services
             _spinRepositoryMock.Setup(x => x.GetLatestSpinResult()).ReturnsAsync(expectedSpin);
 
             // Act
-            var result = await _spinService.GetLatestSpinResult();
+            var result = await _spinService.GetLatestSpinResultAsync();
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -57,7 +57,7 @@ namespace DerivcoAssessment.Tests.Services
             _spinRepositoryMock.Setup(x => x.GetLatestSpinResult()).ReturnsAsync((Spin)null);
 
             // Act
-            var result = await _spinService.GetLatestSpinResult();
+            var result = await _spinService.GetLatestSpinResultAsync();
 
             // Assert
             Assert.That(result, Is.Null);

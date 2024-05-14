@@ -50,7 +50,7 @@ namespace DerivcoAssessment.Controllers.Version1
 
             try
             {
-                Bet createdBet = await _betService.PlaceBet(betDto);
+                Bet createdBet = await _betService.PlaceBetAsync(betDto);
 
                 return CreatedAtAction(nameof(PlaceBet), new { id = createdBet.Id }, createdBet);
             }

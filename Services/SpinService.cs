@@ -14,7 +14,7 @@ namespace DerivcoAssessment.Services
             _repository = repository;
         }
 
-        public async Task<Spin> SpinRouletteWheel()
+        public async Task<Spin> SpinRouletteWheelAsync()
         {
             Random random = new Random();
             int rouletteNumber = random.Next(0, 37);
@@ -28,7 +28,7 @@ namespace DerivcoAssessment.Services
             });
         }
 
-        public async Task<Spin?> GetLatestSpinResult()
+        public async Task<Spin?> GetLatestSpinResultAsync()
         {
             return await _repository.GetLatestSpinResult();
         }

@@ -47,7 +47,7 @@ namespace DerivcoAssessment.Tests.Services
             _payoutRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Payout>())).ReturnsAsync(savedPayout);
 
             // Act
-            var result = await _payoutService.CalculateBetPayouts(spin, placedBets);
+            var result = await _payoutService.CalculateBetPayoutsAsync(spin, placedBets);
 
             // Assert
             Assert.That(result, Is.Not.Null);
