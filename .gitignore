@@ -1,7 +1,5 @@
-# Contents of .gitignore file
 *.vs
 
-# .NET Core
 bin/
 obj/
 *.dll
@@ -12,12 +10,9 @@ obj/
 *.log
 *.swp
 
-# Visual Studio Code
 .vscode/
 
-# Rider
 .idea/
 
-# NuGet Packages
 *.nupkg
 *.paket/paket-files/
