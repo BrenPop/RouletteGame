@@ -7,14 +7,11 @@ namespace DerivcoAssessment.Services
 {
     public class PayoutService : BaseService<Payout>, IPayoutService
     {
-        protected new readonly IPayoutRepository _repository;
-
-        protected readonly IBetService _betService;
+        private readonly IBetService _betService;
 
         public PayoutService(IPayoutRepository repository, IBetService betService) : base(repository)
         {
-            _repository = repository;
-            _betService = betService;
+            _betService = betService ?? throw new ArgumentNullException(nameof(betService));
         }
 
         public async Task<List<Payout>> CalculateBetPayoutsAsync(Spin spin, List<Bet> placedBets)
@@ -23,47 +20,51 @@ namespace DerivcoAssessment.Services
 
             foreach (var bet in placedBets)
             {
-                bet.Spin = spin;
-                bet.BetStatus = BetStatus.Active;
-                await _betService.UpdateAsync(bet);
+                await UpdateBetStatusAsync(bet, spin, BetStatus.Active);
 
                 var betPayoutAmount = CalculateBetResult(spin.Colour, bet.Colour, bet.Amount);
-                var payout = new Payout
-                {
-                    Amount = betPayoutAmount,
-                    Spin = spin,
-                    BetResult = betPayoutAmount >= 0 ? BetResult.Win : BetResult.Loss
-                };
-
-                Payout savedPayout = await AddAsync(payout);
+                var payout = CreatePayout(spin, betPayoutAmount);
+                var savedPayout = await AddAsync(payout);
 
                 payouts.Add(savedPayout);
 
-                bet.Payout = savedPayout;
-                bet.BetStatus = BetStatus.Completed;
-                await _betService.UpdateAsync(bet);
+                await FinalizeBetAsync(bet, savedPayout);
             }
 
             return payouts;
         }
 
+        private async Task UpdateBetStatusAsync(Bet bet, Spin spin, BetStatus status)
+        {
+            bet.Spin = spin;
+            bet.BetStatus = status;
+
+            await _betService.UpdateAsync(bet);
+        }
+
+        private Payout CreatePayout(Spin spin, double betPayoutAmount)
+        {
+            return new Payout
+            {
+                Amount = betPayoutAmount,
+                Spin = spin,
+                BetResult = betPayoutAmount >= 0 ? BetResult.Win : BetResult.Loss
+            };
+        }
+
+        private async Task FinalizeBetAsync(Bet bet, Payout payout)
+        {
+            bet.Payout = payout;
+            bet.BetStatus = BetStatus.Completed;
+
+            await _betService.UpdateAsync(bet);
+        }
+
         public double CalculateBetResult(BetColour spinColour, BetColour betColour, double amount)
         {
-            if (spinColour == betColour)
-            {
-                if (betColour == BetColour.Green)
-                {
-                    return amount * 14; // 14:1 payout for green
-                }
-                else
-                {
-                    return amount * 2; // 1:1 payout for red or black
-                }
-            }
-            else
-            {
-                return -amount; // Player loses the amount they bet
-            }
+            return spinColour == betColour
+                ? (betColour == BetColour.Green ? amount * 14 : amount * 2)
+                : -amount;
         }
     }
 }
