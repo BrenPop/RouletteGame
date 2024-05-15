@@ -7,6 +7,13 @@ Steps to setup this project
 5. Run the project
 6. To test the project you can use the swagger page, or Postman
 
+
+Steps to test the roulette game:
+
+1. Place a new bets using the [POST} /api/v1/Bet endpoint
+2. Spin the roulette wheel using the [POST} /api/v1/Spin endpoint
+3. Generate the payouts using the [POST} /api/v1/Payout endpoint
+
 API Endpoints:
 
 BetController:
